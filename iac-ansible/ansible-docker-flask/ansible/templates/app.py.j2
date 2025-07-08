@@ -1,13 +1,14 @@
 from flask import Flask, request, redirect, url_for, render_template
 import psycopg2
+import os
 
 app = Flask(__name__, template_folder="templates")
 
 def get_connection():
     return psycopg2.connect(
-        dbname="mydb",
-        user="postgres",
-        password="postgres",
+        dbname=os.environ.get("POSTGRES_DB"),
+        user=os.environ.get("POSTGRES_USER"),
+        password=os.environ.get("POSTGRES_PASSWORD"),
         host="db"
     )
 
