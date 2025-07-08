@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<form method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" name="name" id="name" value="{{ name or '' }}">
+    </div>
+    <button type="submit" class="btn btn-primary">{{ action }}</button>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

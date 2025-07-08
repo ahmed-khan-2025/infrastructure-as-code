@@ -1,0 +1,17 @@
+- name: Setup PostgreSQL database and Flask app
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Wait for PostgreSQL to be ready
+      wait_for:
+        host: db
+        port: 5432
+        delay: 5
+        timeout: 30
+
+    - name: Initialize DB
+      shell: |
+        psql -h db -U postgres -d mydb -c "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name TEXT);"
+        psql -h db -U postgres -d mydb -c "INSERT INTO users (name) VALUES ('Ahmed'), ('Selim'), ('Baker');"
+      environment:
+        PGPASSWORD: postgres

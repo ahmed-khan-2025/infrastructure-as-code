@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+.env
+
+# Docker
+*.log
+*.pid
+docker-compose.override.yml
+
+# Ansible
+*.retry
+*.vault
+
+# System
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Terraform (if included)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Misc
+*.bak
