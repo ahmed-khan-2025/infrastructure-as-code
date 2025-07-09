@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Employ</h1>
+
+{% if employees %}
+  <ul>
+  {% for emp in employees %}
+     <li>Name: {{ emp.name }}, Position: {{ emp.position }}, Salary: {{ emp.salary }}</li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No employees found.</p>
+{% endif %}
+
+{% endblock %}

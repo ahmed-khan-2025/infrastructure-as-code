@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ title or "Flask App" }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    nav a { margin-right: 10px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/create_table">Create Table</a>
+    <a href="/insert_data">Insert Data</a>
+    <a href="/view_data">View Data</a>
+    <a href="/delete_table">Delete Table</a>
+  </nav>
+  <hr />
+  {% block content %}{% endblock %}
+</body>
+</html>

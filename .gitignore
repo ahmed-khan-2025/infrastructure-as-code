@@ -26,6 +26,7 @@ Thumbs.db
 
 # Terraform (if included)
 *.tfstate
+*.lock.hcl
 *.tfstate.backup
 .terraform/
 
