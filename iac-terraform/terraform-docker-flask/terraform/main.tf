@@ -9,37 +9,30 @@ terraform {
 
 provider "docker" {}
 
-# Build Flask image
-resource "docker_image" "python_app"{
+# Docker network
+resource "docker_network" "custom_bridge" {
+  name = "custom_bridge"
+}
+
+# Build Docker image from Flask app
+resource "docker_image" "python_app" {
   name = "local-python-app"
 
   build {
     context    = abspath("${path.module}/../flask_app")
-    # context    = "C:/Galib/InfrastructureAsACode-IaC/Terraform/Terraform-project/terraform-python/"
-    #dockerfile = abspath("${path.module}/../Dockerfile")
-    dockerfile = "Dockerfile" 
+    dockerfile = "Dockerfile"
   }
 }
 
-resource "docker_network" "custom_bridge" {
-  name = "custom_bridge"
-}
-# resource "docker_network" "custom_bridge" {
-#   name = "custom_bridge"
-
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
-
+# PostgreSQL container
 resource "docker_container" "postgres" {
   name  = "postgres-db"
   image = "postgres:15-alpine"
 
   env = [
-    "POSTGRES_USER=testuser",
-    "POSTGRES_PASSWORD=testpassword",
-    "POSTGRES_DB=testdb",
+    "POSTGRES_USER=${var.postgres_user}",
+    "POSTGRES_PASSWORD=${var.postgres_password}",
+    "POSTGRES_DB=${var.postgres_db}"
   ]
 
   ports {
@@ -55,21 +48,22 @@ resource "docker_container" "postgres" {
   restart = "always"
 }
 
+# Python Flask container
 resource "docker_container" "python_app" {
   name  = "python-app-container"
   image = docker_image.python_app.name
+
+  env = [
+    "POSTGRES_USER=${var.postgres_user}",
+    "POSTGRES_PASSWORD=${var.postgres_password}",
+    "POSTGRES_DB=${var.postgres_db}",
+    "POSTGRES_HOST=postgres-db"
+  ]
 
   ports {
     internal = 5000
     external = 5000
   }
-
-  env = [
-    "POSTGRES_HOST=postgres-db",
-    "POSTGRES_DB=testdb",
-    "POSTGRES_USER=testuser",
-    "POSTGRES_PASSWORD=testpassword",
-  ]
 
   depends_on = [docker_container.postgres]
 

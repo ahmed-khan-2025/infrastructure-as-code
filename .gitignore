@@ -29,6 +29,5 @@ Thumbs.db
 *.lock.hcl
 *.tfstate.backup
 .terraform/
-
 # Misc
 *.bak
